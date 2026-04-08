@@ -22,46 +22,47 @@
     @include('layouts.navbar')
 
     <!-- HERO SECTION -->
-    <section id="beranda" class="relative h-screen flex justify-center items-center text-center text-white overflow-hidden">
-    <!-- Slider Container -->
-    <div class="absolute inset-0 w-full h-full overflow-hidden">
-    <div id="slider" class="flex w-full h-full transition-transform duration-700">
-        
-        <div class="w-full h-full flex-shrink-0">
-            <img src="img/smksamudranusantara-hero.jpg" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-black opacity-50"></div>
+    <section id="beranda"
+        class="relative h-screen flex justify-center items-center text-center text-white overflow-hidden">
+        <!-- Slider Container -->
+        <div class="absolute inset-0 w-full h-full overflow-hidden">
+            <div id="slider" class="flex w-full h-full transition-transform duration-700">
+
+                <div class="w-full h-full flex-shrink-0">
+                    <img src="img/smksamudranusantara-hero.jpg" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black opacity-50"></div>
+                </div>
+
+                <div class="w-full h-full flex-shrink-0">
+                    <img src="img/smksamudranusantara-hero2.jpg" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black opacity-50"></div>
+                </div>
+
+                <div class="w-full h-full flex-shrink-0">
+                    <img src="img/smksamudranusantara-hero3.jpg" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-black opacity-50"></div>
+                </div>
+
+            </div>
         </div>
 
-        <div class="w-full h-full flex-shrink-0">
-            <img src="img/smksamudranusantara-hero2.jpg" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-black opacity-50"></div>
+        <!-- Content -->
+        <div class="relative z-10 px-4">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">Selamat Datang di SPMB</h1>
+            <p class="text-lg md:text-2xl mb-6">Pendaftaran Siswa Baru SMK Samudra Nusantara</p>
+            <a href="#daftar"
+                class="bg-blue-400 hover:bg-blue-500 transition px-6 py-3 rounded-lg font-semibold text-lg">
+                Daftar Sekarang
+            </a>
         </div>
 
-        <div class="w-full h-full flex-shrink-0">
-            <img src="img/smksamudranusantara-hero3.jpg" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-black opacity-50"></div>
+        <!-- Slider Controls (optional) -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex space-x-3 z-20">
+            <button class="w-3 h-3 rounded-full bg-white opacity-50" onclick="goToSlide(0)"></button>
+            <button class="w-3 h-3 rounded-full bg-white opacity-50" onclick="goToSlide(1)"></button>
+            <button class="w-3 h-3 rounded-full bg-white opacity-50" onclick="goToSlide(2)"></button>
         </div>
-
-    </div>
-</div>
-
-    <!-- Content -->
-    <div class="relative z-10 px-4">
-        <h1 class="text-4xl md:text-6xl font-bold mb-4">Selamat Datang di SPMB</h1>
-        <p class="text-lg md:text-2xl mb-6">Pendaftaran Siswa Baru SMK Samudra Nusantara</p>
-        <a href="#daftar"
-           class="bg-blue-400 hover:bg-blue-500 transition px-6 py-3 rounded-lg font-semibold text-lg">
-           Daftar Sekarang
-        </a>
-    </div>
-
-    <!-- Slider Controls (optional) -->
-    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex space-x-3 z-20">
-        <button class="w-3 h-3 rounded-full bg-white opacity-50" onclick="goToSlide(0)"></button>
-        <button class="w-3 h-3 rounded-full bg-white opacity-50" onclick="goToSlide(1)"></button>
-        <button class="w-3 h-3 rounded-full bg-white opacity-50" onclick="goToSlide(2)"></button>
-    </div>
-</section>
+    </section>
 
     <!-- JURUSAN SECTION -->
     <section id="jurusan" class="max-w-7xl mx-auto py-16 px-6">
@@ -128,24 +129,24 @@
 
     <!-- SCRIPT -->
     <script>
-const slides = document.querySelectorAll("#slider .slide");
-let currentSlide = 0;
+        const slides = document.querySelectorAll("#slider .slide");
+        let currentSlide = 0;
 
-function showSlide(index) {
-    slides.forEach((slide, i) => {
-        slide.style.opacity = i === index ? "1" : "0";
-    });
-}
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.style.opacity = i === index ? "1" : "0";
+            });
+        }
 
-// Tampilkan slide pertama
-showSlide(currentSlide);
+        // Tampilkan slide pertama
+        showSlide(currentSlide);
 
-// Slider otomatis setiap 5 detik
-setInterval(() => {
-    currentSlide = (currentSlide + 1) % slides.length;
-    showSlide(currentSlide);
-}, 5000);
-</script>
+        // Slider otomatis setiap 5 detik
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }, 5000);
+    </script>
 
 </body>
 

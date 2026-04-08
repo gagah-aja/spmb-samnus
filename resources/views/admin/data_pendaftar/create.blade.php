@@ -5,10 +5,14 @@
     <meta charset="UTF-8">
     <title>Tambah Pendaftar</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <style>
         body {
             background: #e0f2fe;
-            /* background biru muda */
+            /* background biru muda sesuai kode asli */
             font-family: 'Segoe UI', sans-serif;
         }
 
@@ -16,41 +20,7 @@
             display: flex;
         }
 
-        /* SIDEBAR */
-        .sidebar {
-            width: 260px;
-            min-height: 100vh;
-            background: linear-gradient(180deg, #0f172a, #1e293b);
-            color: #e2e8f0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .nav a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 14px 12px;
-            border-radius: 10px;
-            text-decoration: none;
-            color: #e2e8f0;
-            transition: all 0.3s;
-            font-weight: 500;
-            font-size: 15px;
-        }
-
-        .nav a:hover {
-            background: rgba(255, 255, 255, 0.08);
-            transform: translateX(5px);
-        }
-
-        .nav a.active {
-            background: linear-gradient(135deg, #3b82f6, #6366f1);
-            color: white;
-            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
-        }
+        /* CSS Sidebar internal dihapus agar mengikuti admin.css */
 
         /* MAIN CONTENT */
         .main {
@@ -76,7 +46,7 @@
             text-decoration: none;
         }
 
-        /* FORM CARD */
+        /* FORM CARD - Tetap Sesuai Kode Asli */
         .form-card {
             background: white;
             padding: 35px 40px;
@@ -116,6 +86,8 @@
             border-radius: 12px;
             transition: 0.3s;
             font-size: 16px;
+            border: none;
+            cursor: pointer;
         }
 
         .btn-submit:hover {
@@ -123,7 +95,7 @@
             transform: scale(1.03);
         }
 
-        /* DROPDOWN CUSTOM */
+        /* DROPDOWN CUSTOM - Tetap Sesuai Kode Asli */
         .dropdown {
             opacity: 0;
             transform: translateY(-10px);
@@ -131,6 +103,7 @@
             transition: all 0.25s ease;
             max-height: 180px;
             overflow-y: auto;
+            border: 1px solid #cbd5e1;
         }
 
         .dropdown.show {
@@ -159,6 +132,7 @@
             justify-content: space-between;
             align-items: center;
             transition: 0.3s;
+            background: white;
         }
 
         #dropdownBtn:hover {
@@ -169,6 +143,7 @@
 
 <body>
     <div class="container">
+
         @include('admin.sidebar')
 
         <div class="main">
@@ -181,12 +156,11 @@
                 </div>
             </div>
 
-            <!-- FORM CARD -->
             <div class="form-card">
-                <form method="POST" action="{{ route('admin.data-pendaftar.store') }}" onsubmit="return validasiForm()">
+                <form method="POST" action="{{ route('admin.data-pendaftar.store') }}"
+                    onsubmit="return validasiForm()">
                     @csrf
 
-                    <!-- Jarak antar input 20px -->
                     <div class="mb-5">
                         <input id="nama" type="text" name="nama_lengkap" placeholder="Nama Lengkap">
                     </div>
@@ -203,7 +177,6 @@
                         <input id="hp" type="text" name="no_hp" placeholder="No HP">
                     </div>
 
-                    <!-- Dropdown jurusan -->
                     <div class="relative mb-5" id="dropdownWrapper">
                         <div id="dropdownBtn">
                             <span id="selectedText">-- Pilih Jurusan --</span>
@@ -229,7 +202,6 @@
     </div>
 
     <script>
-        // Dropdown JS
         const dropdownBtn = document.getElementById("dropdownBtn");
         const dropdownMenu = document.getElementById("dropdownMenu");
         const selectedText = document.getElementById("selectedText");
@@ -278,7 +250,6 @@
             }
         });
 
-        // Form validation
         function validasiForm() {
             let nama = document.getElementById("nama").value;
             let sekolah = document.getElementById("sekolah").value;
@@ -290,17 +261,14 @@
                 alert("Semua field wajib diisi!");
                 return false;
             }
-
             if (isNaN(nisn)) {
                 alert("NISN harus berupa angka!");
                 return false;
             }
-
             if (isNaN(hp)) {
                 alert("No HP harus berupa angka!");
                 return false;
             }
-
             return true;
         }
     </script>

@@ -5,12 +5,15 @@
     <meta charset="UTF-8">
     <title>Data Pendaftar</title>
 
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI';
+            font-family: 'Segoe UI', sans-serif;
         }
 
         body {
@@ -21,103 +24,7 @@
             display: flex;
         }
 
-        /* ===== SIDEBAR ===== */
-        .sidebar {
-            width: 260px;
-            min-height: 100vh;
-            background: linear-gradient(180deg, #0f172a, #1e293b);
-            color: #e2e8f0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .logo {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #3b82f6, #6366f1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-        }
-
-        .menu-title {
-            font-size: 12px;
-            color: #94a3b8;
-            margin: 15px 0;
-        }
-
-        .nav a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px;
-            border-radius: 10px;
-            text-decoration: none;
-            color: #e2e8f0;
-            transition: 0.3s;
-        }
-
-        .nav a:hover {
-            background: rgba(255, 255, 255, 0.08);
-            transform: translateX(5px);
-        }
-
-        .nav a.active {
-            background: linear-gradient(135deg, #3b82f6, #6366f1);
-            color: white;
-            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
-        }
-
-        .profile {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: #3b82f6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-        }
-
-        .name {
-            font-size: 14px;
-        }
-
-        .status {
-            font-size: 12px;
-            color: #94a3b8;
-        }
-
-        .logout {
-            display: block;
-            margin-top: 10px;
-            text-align: center;
-            padding: 10px;
-            background: #ef4444;
-            border-radius: 8px;
-            color: white;
-            text-decoration: none;
-        }
-
-        /* ===== MAIN ===== */
+        /* ===== MAIN CONTENT ===== */
         .main {
             flex: 1;
             padding: 30px;
@@ -154,6 +61,7 @@
             color: white;
             cursor: pointer;
             text-decoration: none;
+            font-size: 14px;
         }
 
         .btn-add {
@@ -173,6 +81,7 @@
             background: white;
             padding: 20px;
             border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
         }
 
         table {
@@ -232,7 +141,6 @@
                 <h1>Data Pendaftar</h1>
             </div>
 
-            <!-- TOOLBAR -->
             <div class="toolbar">
                 <input type="text" class="search" placeholder="Cari nama...">
                 <a href="{{ route('admin.data-pendaftar.create') }}" class="btn btn-add">+ Tambah</a>
@@ -243,60 +151,53 @@
                     {{ session('success') }}
                 </div>
             @endif
-            <!-- TABLE -->
+
             <div class="table-box">
                 <table>
-                    <tr>
-                        <th>No</th>
-                        <th>Nama</th>
-                        <th>Asal Sekolah</th>
-                        <th>NISN</th>
-                        <th>No HP</th>
-                        <th>Status</th>
-                        <th>Aksi</th>
-                    </tr>
-
-                    @foreach ($data as $i => $d)
+                    <thead>
                         <tr>
-                            <td>{{ $i + 1 }}</td>
-                            <td>{{ $d->nama_lengkap }}</td>
-                            <td>{{ $d->asal_sekolah }}</td>
-                            <td>{{ $d->nisn }}</td>
-                            <td>{{ $d->no_hp }}</td>
-                            <td>
-                                <span class="badge {{ $d->status }}">
-                                    {{ ucfirst($d->status) }}
-                                </span>
-                            </td>
-                            <td class="action-btns">
-                                <a href="{{ route('admin.data-pendaftar.edit', $d->id) }}" class="btn btn-edit">Edit</a>
-                                <form action="{{ route('admin.data-pendaftar.destroy', $d->id) }}" method="POST"
-                                    onsubmit="return confirm('Yakin ingin menghapus data ini?')"
-                                    style="display:inline;">
-
-                                    @csrf
-                                    @method('DELETE')
-
-                                    <button class="btn btn-delete">Hapus</button>
-                                </form>
-                            </td>
+                            <th>No</th>
+                            <th>Nama</th>
+                            <th>Asal Sekolah</th>
+                            <th>NISN</th>
+                            <th>No HP</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
                         </tr>
-                    @endforeach
-
+                    </thead>
+                    <tbody>
+                        @foreach ($data as $i => $d)
+                            <tr>
+                                <td>{{ $i + 1 }}</td>
+                                <td>{{ $d->nama_lengkap }}</td>
+                                <td>{{ $d->asal_sekolah }}</td>
+                                <td>{{ $d->nisn }}</td>
+                                <td>{{ $d->no_hp }}</td>
+                                <td>
+                                    <span class="badge {{ $d->status }}">
+                                        {{ ucfirst($d->status) }}
+                                    </span>
+                                </td>
+                                <td class="action-btns">
+                                    <a href="{{ route('admin.data-pendaftar.edit', $d->id) }}"
+                                        class="btn btn-edit">Edit</a>
+                                    <form action="{{ route('admin.data-pendaftar.destroy', $d->id) }}" method="POST"
+                                        onsubmit="return confirm('Yakin ingin menghapus data ini?')"
+                                        style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-delete">Hapus</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
                 </table>
             </div>
 
         </div>
     </div>
-    <script>
-        function hapusDummy(btn) {
-            if (confirm('Apakah kamu yakin ingin menghapus pendaftar ini?')) {
-                const row = btn.closest('tr');
-                row.remove(); // hapus baris tabel
-                alert('Data pendaftar berhasil dihapus (dummy)');
-            }
-        }
-    </script>
+
 </body>
 
 </html>

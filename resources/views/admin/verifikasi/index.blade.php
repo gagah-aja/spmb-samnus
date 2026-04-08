@@ -6,6 +6,7 @@
     <title>Verifikasi Pendaftar</title>
 
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         * {
             margin: 0;
@@ -59,12 +60,14 @@
 
         th,
         td {
-            padding: 14px;
+            padding: 12px;
+            text-align: center; /* semua td center */
+            vertical-align: middle;
         }
 
         th {
             background: #e2e8f0;
-            font-size: 13px;
+            font-size: 14px;
         }
 
         tr:hover {
@@ -73,6 +76,9 @@
 
         /* ================= BADGE ================= */
         .badge {
+            display: inline-block;
+            min-width: 70px;
+            text-align: center;
             padding: 6px 12px;
             border-radius: 20px;
             color: white;
@@ -93,11 +99,12 @@
 
         /* ================= BUTTON ================= */
         .btn {
-            padding: 8px 14px;
+            padding: 6px 12px;
             border: none;
             border-radius: 8px;
             color: white;
             cursor: pointer;
+            font-size: 12px;
         }
 
         .btn-approve {
@@ -123,36 +130,7 @@
         .action-btns {
             display: flex;
             justify-content: center;
-            gap: 8px;
-        }
-
-        /* ================= MODAL ================= */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-box {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            width: 320px;
-        }
-
-        textarea {
-            width: 100%;
-            height: 80px;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            resize: vertical;
+            gap: 6px;
         }
     </style>
 </head>
@@ -161,30 +139,7 @@
 
     <div class="container">
 
-        <!-- SIDEBAR -->
-        <div class="sidebar">
-            <div>
-                <div class="logo">SPMB Admin</div>
-
-                <div class="menu">
-                    <a href="{{ route('admin.dashboard') }}"
-                        class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">Dashboard</a>
-                    <a href="{{ route('admin.data-pendaftar') }}"
-                        class="{{ request()->routeIs('admin.data-pendaftar*') ? 'active' : '' }}">Data Pendaftar</a>
-                    <a href="{{ route('admin.verifikasi') }}"
-                        class="{{ request()->routeIs('admin.verifikasi*') ? 'active' : '' }}">Verifikasi</a>
-                    <a href="{{ route('admin.pengumuman') }}"
-                        class="{{ request()->routeIs('admin.pengumuman*') ? 'active' : '' }}">Pengumuman</a>
-                    <a href="{{ route('admin.pengaturan') }}"
-                        class="{{ request()->routeIs('admin.pengaturan*') ? 'active' : '' }}">Pengaturan</a>
-                </div>
-            </div>
-
-            <div class="bottom">
-                <p>Admin</p>
-                <a href="{{ route('logout') }}" class="logout">Logout</a>
-            </div>
-        </div>
+        @include('admin.sidebar')
 
         <!-- MAIN -->
         <div class="main">
@@ -205,8 +160,9 @@
                             <th>Nama</th>
                             <th>Asal Sekolah</th>
                             <th>NISN</th>
+                            <th>No HP</th>
                             <th>Status</th>
-                            <th style="text-align:center;">Aksi</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
 
@@ -217,12 +173,12 @@
                                 <td>{{ $d->nama_lengkap }}</td>
                                 <td>{{ $d->asal_sekolah }}</td>
                                 <td>{{ $d->nisn }}</td>
+                                <td>{{ $d->no_hp }}</td>
                                 <td>
                                     <span class="badge {{ $d->status }}">
                                         {{ ucfirst($d->status) }}
                                     </span>
                                 </td>
-
                                 <td class="action-btns">
                                     @if ($d->status == 'proses')
                                         <button class="btn btn-approve"
@@ -231,7 +187,7 @@
                                             onclick="openModal({{ $d->id }}, 'tolak')">Tolak</button>
                                     @else
                                         <button class="btn btn-detail"
-                                            onclick="lihatDetail('{{ $d->notifikasi->pesan ?? '' }}')">
+                                            onclick="openDetailModal({{ $d->id }}, '{{ addslashes($d->notifikasi->pesan ?? '') }}')">
                                             Detail
                                         </button>
                                     @endif
@@ -246,7 +202,7 @@
     </div>
 
     <!-- MODAL -->
-    <div id="modal" class="modal">
+    <div id="modal" class="modal" style="display:none;">
         <div class="modal-box">
             <h3>Isi Pesan</h3>
 
@@ -276,6 +232,17 @@
 
         function closeModal() {
             document.getElementById('modal').style.display = 'none';
+        }
+
+        function openDetailModal(id, pesan) {
+            const modal = document.getElementById('modal');
+            const form = document.getElementById('formAksi');
+            const textarea = form.querySelector('textarea');
+
+            form.action = `/admin/verifikasi/${id}/update-pesan`;
+            textarea.value = pesan;
+
+            modal.style.display = 'flex';
         }
     </script>
 

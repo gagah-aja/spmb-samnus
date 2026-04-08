@@ -3,164 +3,200 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Edit Pengumuman</title>
-    <!-- Bootstrap CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Pengumuman | Admin SPMB</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 
     <style>
+        /* RESET & ANTI-SCROLL */
+        html,
         body {
-            background: #f1f5f9;
-            font-family: 'Segoe UI', sans-serif;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            /* Mencegah scroll pada level body */
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f1f5f9;
         }
 
         .container-flex {
             display: flex;
-            min-height: 100vh;
+            height: 100vh;
+            /* Pastikan container tepat seukuran layar */
+            width: 100vw;
         }
 
-        /* SIDEBAR */
-        .sidebar {
-            width: 260px;
-            background: linear-gradient(180deg, #0f172a, #1e293b);
-            color: #e2e8f0;
-            padding: 20px;
+        /* MAIN SECTION */
+        .main {
+            flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            padding: 30px;
+            overflow: hidden;
+            /* Konten utama tidak boleh meluap */
         }
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .header {
+            flex-shrink: 0;
+            /* Header tetap di atas */
             margin-bottom: 20px;
         }
 
-        .logo {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #3b82f6, #6366f1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
+        .header h1 {
+            font-size: 26px;
+            font-weight: 700;
+            color: #0f172a;
         }
 
-        .nav a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            border-radius: 10px;
-            text-decoration: none;
-            color: #e2e8f0;
-            transition: 0.3s;
-        }
-
-        .nav a:hover {
-            background: rgba(255, 255, 255, 0.08);
-            transform: translateX(5px);
-        }
-
-        .nav a.active {
-            background: linear-gradient(135deg, #3b82f6, #6366f1);
-            color: white;
-            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
-        }
-
-        .profile {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: #3b82f6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-        }
-
-        .main {
-            flex: 1;
-            padding: 30px;
-        }
-
-        /* Card form */
+        /* CARD ADJUSTMENT (Mirip Table-Box di Index) */
         .card-form {
-            max-width: 800px;
-            margin: auto;
-            padding: 25px;
+            background: white;
             border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            background-color: white;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            flex-grow: 1;
+            /* Card mengisi sisa ruang layar */
+        }
+
+        /* Bagian isi form yang bisa discroll jika input terlalu banyak */
+        .card-body-content {
+            padding: 25px;
+            overflow-y: auto;
+            /* Hanya bagian ini yang discroll jika layar kecil */
+            flex-grow: 1;
+        }
+
+        /* FORM STYLING */
+        .form-label {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #cbd5e1;
+        }
+
+        .form-control:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.1);
+        }
+
+        /* FOOTER CARD */
+        .card-footer-custom {
+            padding: 15px 25px;
+            background: #f8fafc;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            border: none;
         }
 
         .btn-back {
-            margin-bottom: 15px;
+            background: #64748b;
+            color: white;
+        }
+
+        .btn-save {
+            background: #22c55e;
+            color: white;
+        }
+
+        .btn-back:hover {
+            background: #475569;
+        }
+
+        .btn-save:hover {
+            background: #16a34a;
+        }
+
+        /* Scrollbar Styling */
+        .card-body-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .card-body-content::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
         }
     </style>
 </head>
 
 <body>
-
     <div class="container-flex">
 
         @include('admin.sidebar')
 
         <div class="main">
-            <h1 class="mb-4">Edit Pengumuman</h1>
-
-            <div class="card-form">
-                <a href="{{ route('admin.pengumuman') }}" class="btn btn-secondary btn-back">
-                    ← Kembali
-                </a>
-
-                <form id="editPengumumanForm">
-                    <div class="mb-3">
-                        <label for="judul" class="form-label">Judul Pengumuman</label>
-                        <input type="text" class="form-control" id="judul" value="Pengumuman Penting">
-                    </div>
-                    <div class="mb-3">
-                        <label for="tanggal" class="form-label">Tanggal</label>
-                        <input type="date" class="form-control" id="tanggal" value="2026-04-01">
-                    </div>
-                    <div class="mb-3">
-                        <label for="isi" class="form-label">Isi Pengumuman</label>
-                        <textarea class="form-control" id="isi" rows="5">Ini adalah isi pengumuman dummy yang bisa diedit.</textarea>
-                    </div>
-                    <button type="submit" class="btn btn-success">Simpan</button>
-                </form>
+            <div class="header">
+                <h1>Edit Pengumuman</h1>
             </div>
 
-        </div>
+            <div class="card-form">
+                <div class="card-body-content">
+                    <form id="editPengumumanForm" action="{{ route('admin.pengumuman.update', $pengumuman->id) }}"
+                        method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <div class="mb-4">
+                            <label class="form-label">Judul</label>
+                            <input type="text" name="judul" class="form-control"
+                                value="{{ old('judul', $pengumuman->judul) }}">
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Ganti Gambar (Biarkan kosong jika tidak ingin ganti)</label>
+                           <input type="file" name="gambar" class="form-control" accept="image/*">  
+                            @if ($pengumuman->gambar)
+                                <img src="{{ asset('storage/' . $pengumuman->gambar) }}" class="mt-2" width="150">
+                            @endif
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Tanggal</label>
+                            <input type="date" name="tanggal" class="form-control"
+                                value="{{ old('tanggal', $pengumuman->tanggal) }}">
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">Isi</label>
+                            <textarea name="isi" class="form-control" rows="10">{{ old('isi', $pengumuman->isi) }}</textarea>
+                        </div>
+                    </form>
+                </div>
 
+                <div class="card-footer-custom">
+                    <a href="{{ route('admin.pengumuman') }}" class="btn btn-back">
+                        <i class="fas fa-arrow-left me-2"></i> Batal
+                    </a>
+                    <button type="submit" form="editPengumumanForm" class="btn btn-save">
+                        <i class="fas fa-save me-2"></i> Simpan Perubahan
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Bootstrap JS & Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.getElementById('editPengumumanForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const judul = document.getElementById('judul').value;
-            const tanggal = document.getElementById('tanggal').value;
-            const isi = document.getElementById('isi').value;
-
-            if (!judul || !tanggal || !isi) {
-                alert('Harap lengkapi semua field!');
-                return;
-            }
-
-            alert(`Pengumuman berhasil diperbarui (dummy)\nJudul: ${judul}\nTanggal: ${tanggal}`);
-        });
-    </script>
-
 </body>
+
 </html>

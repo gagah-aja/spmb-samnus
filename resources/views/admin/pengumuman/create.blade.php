@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <title>Tambah Pengumuman</title>
 
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <style>
         * {
             margin: 0;
@@ -21,103 +24,9 @@
             display: flex;
         }
 
-        /* SIDEBAR */
-        .sidebar {
-            width: 260px;
-            min-height: 100vh;
-            background: linear-gradient(180deg, #0f172a, #1e293b);
-            color: #e2e8f0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
+        /* CSS Sidebar internal dihapus karena sudah menggunakan admin.css */
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .logo {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #3b82f6, #6366f1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-        }
-
-        .menu-title {
-            font-size: 12px;
-            color: #94a3b8;
-            margin: 15px 0;
-        }
-
-        .nav a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px;
-            border-radius: 10px;
-            text-decoration: none;
-            color: #e2e8f0;
-            transition: 0.3s;
-        }
-
-        .nav a:hover {
-            background: rgba(255, 255, 255, 0.08);
-            transform: translateX(5px);
-        }
-
-        .nav a.active {
-            background: linear-gradient(135deg, #3b82f6, #6366f1);
-            color: white;
-            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
-        }
-
-        .profile {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: #3b82f6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-        }
-
-        .name {
-            font-size: 14px;
-        }
-
-        .status {
-            font-size: 12px;
-            color: #94a3b8;
-        }
-
-        .logout {
-            display: block;
-            margin-top: 10px;
-            text-align: center;
-            padding: 10px;
-            background: #ef4444;
-            border-radius: 8px;
-            color: white;
-            text-decoration: none;
-        }
-
-        /* MAIN */
+        /* ===== MAIN ===== */
         .main {
             flex: 1;
             padding: 30px;
@@ -131,20 +40,18 @@
 
         .header h1 {
             font-size: 26px;
+            color: #0f172a;
         }
 
-        /* FORM */
-        /* FORM */
+        /* ===== FORM BOX - Sesuai Kode Asli ===== */
         .form-box {
             background: white;
             padding: 20px;
             border-radius: 12px;
             max-width: 100%;
-            /* penuh lebar konten */
             width: 800px;
-            /* lebar default lebih besar */
             margin: auto;
-            /* center secara horizontal */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
         }
 
         .form-group {
@@ -155,6 +62,7 @@
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
+            color: #1e293b;
         }
 
         input[type="text"],
@@ -163,21 +71,47 @@
             width: 100%;
             padding: 10px;
             border-radius: 8px;
-            border: 1px solid #ccc;
+            border: 1px solid #cbd5e1;
             font-size: 14px;
+            outline: none;
+            transition: 0.3s;
         }
 
-        button {
-            padding: 10px 15px;
+        input:focus,
+        textarea:focus {
+            border-color: #3b82f6;
+        }
+
+        button.btn-save {
+            padding: 10px 20px;
             border: none;
             border-radius: 8px;
             background: #22c55e;
             color: white;
+            font-weight: 600;
             cursor: pointer;
+            transition: 0.3s;
         }
 
-        button:hover {
+        button.btn-save:hover {
             background: #16a34a;
+            transform: translateY(-2px);
+        }
+
+        .btn-back {
+            display: inline-block;
+            margin-bottom: 15px;
+            padding: 8px 12px;
+            background: #64748b;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .btn-back:hover {
+            background: #475569;
         }
     </style>
 </head>
@@ -195,39 +129,35 @@
             </div>
 
             <div class="form-box">
-                <a href="{{ route('admin.pengumuman') }}"
-                    style="display:inline-block; margin-bottom:15px; padding:8px 12px; background:#64748b; color:white; border-radius:8px; text-decoration:none;">
-                    ← Kembali
+                <a href="{{ route('admin.pengumuman') }}" class="btn-back">
+                    <i class="fas fa-arrow-left"></i> Kembali
                 </a>
 
-                <form onsubmit="simpanDummy(event)">
+                <form action="{{ route('admin.pengumuman.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
                     <div class="form-group">
                         <label>Judul Pengumuman</label>
-                        <input type="text" placeholder="Masukkan judul">
+                        <input type="text" name="judul" value="{{ old('judul') }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Gambar Sampul</label>
+                        <input type="file" name="gambar" accept="image/*">
                     </div>
                     <div class="form-group">
                         <label>Tanggal</label>
-                        <input type="date">
+                        <input type="date" name="tanggal" value="{{ old('tanggal') }}" required>
                     </div>
                     <div class="form-group">
                         <label>Isi Pengumuman</label>
-                        <textarea rows="5" placeholder="Masukkan isi pengumuman"></textarea>
+                        <textarea name="isi" rows="5" required>{{ old('isi') }}</textarea>
                     </div>
-                    <button type="submit">Simpan</button>
+                    <button type="submit" class="btn-save"><i class="fas fa-save"></i> Simpan</button>
                 </form>
             </div>
 
         </div>
 
     </div>
-
-    <script>
-        function simpanDummy(e) {
-            e.preventDefault();
-            alert('Pengumuman berhasil disimpan (dummy)');
-        }
-    </script>
-
 </body>
 
 </html>

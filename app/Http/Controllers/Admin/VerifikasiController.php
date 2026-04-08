@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Notifikasi;
 use App\Models\Pendaftar;
+use Illuminate\Http\Request;
 
 class VerifikasiController extends Controller
 {
@@ -41,5 +42,19 @@ class VerifikasiController extends Controller
         );
 
         return back()->with('success', 'Ditolak + pesan tersimpan');
+    }
+
+    public function updatePesan(Request $request, $id)
+    {
+        $request->validate([
+            'pesan' => 'required|string',
+        ]);
+
+        Notifikasi::updateOrCreate(
+            ['pendaftar_id' => $id],
+            ['pesan' => $request->pesan]
+        );
+
+        return back()->with('success', 'Pesan berhasil diperbarui.');
     }
 }

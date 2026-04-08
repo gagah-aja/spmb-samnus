@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <title>Edit Pendaftar</title>
 
+    <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <style>
         * {
             margin: 0;
@@ -21,105 +24,7 @@
             display: flex;
         }
 
-        /* ===== SIDEBAR ===== */
-        .sidebar {
-            width: 260px;
-            min-height: 100vh;
-            background: linear-gradient(180deg, #0f172a, #1e293b);
-            color: #e2e8f0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .logo {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #3b82f6, #6366f1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-        }
-
-        .menu-title {
-            font-size: 12px;
-            color: #94a3b8;
-            margin: 15px 0;
-        }
-
-        .nav a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px;
-            border-radius: 10px;
-            text-decoration: none;
-            color: #e2e8f0;
-            transition: 0.3s;
-        }
-
-        .nav a:hover {
-            background: rgba(255, 255, 255, 0.08);
-            transform: translateX(5px);
-        }
-
-        .nav a.active {
-            background: linear-gradient(135deg, #3b82f6, #6366f1);
-            color: white;
-            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
-        }
-
-        .profile {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: #3b82f6;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-        }
-
-        .name {
-            font-size: 14px;
-        }
-
-        .status {
-            font-size: 12px;
-            color: #94a3b8;
-        }
-
-        .logout {
-            display: block;
-            margin-top: 10px;
-            text-align: center;
-            padding: 10px;
-            background: #ef4444;
-            border-radius: 8px;
-            color: white;
-            text-decoration: none;
-        }
-
-        .logout:hover {
-            background: #dc2626;
-        }
+        /* CSS Sidebar internal dihapus karena sudah menggunakan admin.css */
 
         /* ===== MAIN ===== */
         .main {
@@ -137,7 +42,7 @@
             margin-bottom: 5px;
         }
 
-        /* Breadcrumb */
+        /* Breadcrumb - Sesuai Kode Asli */
         .breadcrumb {
             font-size: 14px;
             color: #64748b;
@@ -153,7 +58,7 @@
             margin: 0 5px;
         }
 
-        /* ===== FORM CARD ===== */
+        /* ===== FORM CARD - Sesuai Kode Asli ===== */
         .form-card {
             background: white;
             padding: 25px 30px;
@@ -220,6 +125,7 @@
             cursor: pointer;
             text-align: center;
             display: inline-block;
+            text-decoration: none;
             transition: 0.3s;
         }
 
@@ -231,7 +137,7 @@
             position: relative;
         }
 
-        /* HOVER BUKA DROPDOWN */
+        /* HOVER BUKA DROPDOWN - Sesuai Kode Asli */
         .relative:hover>.dropdownMenu {
             display: block !important;
         }
@@ -313,15 +219,16 @@
 
         </div>
     </div>
-</body>
-<script id="7skd92">
-    function setJurusan(value) {
-        document.getElementById('jurusanInput').value = value;
-    }
 
-    function setStatus(value) {
-        document.getElementById('statusInput').value = value;
-    }
-</script>
+    <script>
+        function setJurusan(value) {
+            document.getElementById('jurusanInput').value = value;
+        }
+
+        function setStatus(value) {
+            document.getElementById('statusInput').value = value;
+        }
+    </script>
+</body>
 
 </html>
