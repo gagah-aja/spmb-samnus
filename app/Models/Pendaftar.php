@@ -21,14 +21,16 @@ class Pendaftar extends Model
     }
 
     // Relasi ke DaftarLanjutan (one-to-one)
-    public function daftarLanjutan()
+    public function lanjutan()
     {
-        return $this->hasOne(DaftarLanjutan::class);
+    return $this->hasOne(DaftarLanjutan::class);
     }
 
     // Hapus daftar lanjutan juga saat pendaftar dihapus
-    public function pendaftar()
+    protected static function booted()
     {
-        return $this->belongsTo(Pendaftar::class);
+        static::deleting(function ($pendaftar) {
+            $pendaftar->daftarLanjutan()->delete();
+        });
     }
 }
