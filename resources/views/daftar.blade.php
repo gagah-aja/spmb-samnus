@@ -5,32 +5,29 @@
     <meta charset="UTF-8">
     <title>Pendaftaran Siswa</title>
 
-    <!-- Tailwind CSS CDN -->
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <!-- SweetAlert2 CDN -->
+    <!-- SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
-        /* Animasi card masuk */
         .fade-in {
-            animation: fadeIn 0.8s ease-in-out;
+            animation: fadeIn 0.6s ease-in-out;
         }
 
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: scale(0.95) translateY(20px);
             }
 
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: scale(1) translateY(0);
             }
         }
 
-        /* Dropdown smooth */
         .dropdown {
             opacity: 0;
             transform: translateY(-10px);
@@ -44,78 +41,80 @@
             pointer-events: auto;
         }
 
-        /* Shadow tambahan biar premium */
         .shadow-3xl {
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
         }
     </style>
-
 </head>
 
 <body class="bg-blue-500 min-h-screen flex items-center justify-center">
 
-    <div class="bg-white p-8 rounded-2xl shadow-2xl hover:shadow-3xl transition duration-300 w-full max-w-lg fade-in">
-        <img src="{{ asset('img/samnus.png') }}" 
-         alt="Logo" 
-         class="w-20 mx-auto mb-3">
+    <div class="bg-white p-6 rounded-2xl shadow-2xl hover:shadow-3xl transition duration-300 w-full max-w-md fade-in">
 
-        <h2 class="text-2xl font-bold text-center mb-6 text-gray-700">
+        <img src="{{ asset('img/samnus.png') }}" class="w-16 mx-auto mb-2">
+
+        <h2 class="text-xl font-bold text-center mb-4 text-gray-700">
             Form Pendaftaran
         </h2>
 
-        @if (session('success'))
-            <div class="bg-green-100 text-green-600 p-2 mb-4 rounded text-center">
-                {{ session('success') }}
-            </div>
-        @endif
-
-        <form method="POST" action="/daftar" class="space-y-4" onsubmit="return validasiForm()">
+        <form method="POST" action="/daftar" class="space-y-3" onsubmit="return validasiForm()">
             @csrf
 
-            <input id="nama" type="text" name="nama_lengkap" placeholder="Nama Lengkap"
-                class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 transition">
+            <!-- 2 KOLOM -->
+            <div class="grid grid-cols-2 gap-3">
 
-            <input id="sekolah" type="text" name="asal_sekolah" placeholder="Asal Sekolah"
-                class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 transition">
+                <input id="nama" type="text" name="nama_lengkap" placeholder="Nama Lengkap"
+                    class="p-2 border rounded-lg focus:ring-2 focus:ring-blue-400 transition col-span-2">
 
-            <input id="nisn" type="text" name="nisn" placeholder="NISN"
-                class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 transition">
+                <input id="sekolah" type="text" name="asal_sekolah" placeholder="Asal Sekolah"
+                    class="p-2 border rounded-lg focus:ring-2 focus:ring-blue-400 transition">
 
-            <input id="hp" type="text" name="no_hp" placeholder="No HP"
-                class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-400 transition">
+                <input id="nisn" type="text" name="nisn" placeholder="NISN"
+                    class="p-2 border rounded-lg focus:ring-2 focus:ring-blue-400 transition">
+
+                <input id="hp" type="text" name="no_hp" placeholder="No HP"
+                    class="p-2 border rounded-lg focus:ring-2 focus:ring-blue-400 transition col-span-2">
+
+            </div>
 
             <!-- DROPDOWN -->
             <div class="relative" id="dropdownWrapper">
 
                 <div id="dropdownBtn"
-                    class="w-full p-3 border rounded-lg cursor-pointer bg-white flex justify-between items-center hover:border-blue-400 transition">
+                    class="w-full p-2 border rounded-lg cursor-pointer flex justify-between items-center hover:border-blue-400 transition">
                     <span id="selectedText">-- Pilih Jurusan --</span>
-                    <span id="arrow" class="transition-transform duration-300">▼</span>
+
+                    <!-- PANAH SVG -->
+                    <svg id="arrow" class="w-4 h-4 transition-transform duration-300"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 9l-7 7-7-7" />
+                    </svg>
                 </div>
 
                 <div id="dropdownMenu"
-                    class="dropdown absolute left-0 right-0 mt-1 bg-white border rounded-lg shadow z-10 max-h-48 overflow-y-auto">
+                    class="dropdown absolute left-0 right-0 mt-1 bg-white border rounded-lg shadow z-10 max-h-40 overflow-y-auto text-sm">
 
-                    <div class="p-3 hover:bg-blue-100 cursor-pointer">Teknik Otomasi Industri</div>
-                    <div class="p-3 hover:bg-blue-100 cursor-pointer">Teknik Mesin</div>
-                    <div class="p-3 hover:bg-blue-100 cursor-pointer">Teknik Kelistrikan</div>
-                    <div class="p-3 hover:bg-blue-100 cursor-pointer">Teknik Jaringan Komputer & Telekomunikasi</div>
-                    <div class="p-3 hover:bg-blue-100 cursor-pointer">Teknik Bisnis Sepeda Motor</div>
+                    <div class="p-2 hover:bg-blue-100 cursor-pointer">Teknik Otomasi Industri</div>
+                    <div class="p-2 hover:bg-blue-100 cursor-pointer">Teknik Mesin</div>
+                    <div class="p-2 hover:bg-blue-100 cursor-pointer">Teknik Kelistrikan</div>
+                    <div class="p-2 hover:bg-blue-100 cursor-pointer">TJKT</div>
+                    <div class="p-2 hover:bg-blue-100 cursor-pointer">TBSM</div>
                 </div>
 
                 <input type="hidden" name="jurusan" id="jurusan">
-
             </div>
 
+            <!-- BUTTON -->
             <button
-                class="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition transform hover:scale-105 active:scale-95">
-                Daftar Sekarang
+                class="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition transform hover:scale-105 active:scale-95">
+                Daftar
             </button>
         </form>
 
-        <p class="text-sm text-center mt-4">
+        <p class="text-xs text-center mt-3">
             Sudah punya akun?
-            <a href="/login" class="text-blue-500 font-semibold hover:underline">Login disini</a>
+            <a href="/login" class="text-blue-500 font-semibold hover:underline">Login</a>
         </p>
 
     </div>
@@ -128,29 +127,23 @@
             let hp = document.getElementById("hp").value;
             let jurusan = document.getElementById("jurusan").value;
 
-            if (nama === "" || sekolah === "" || nisn === "" || hp === "" || jurusan === "") {
+            if (!nama || !sekolah || !nisn || !hp || !jurusan) {
                 alert("Semua field wajib diisi!");
                 return false;
             }
 
-            if (isNaN(nisn)) {
-                alert("NISN harus berupa angka!");
-                return false;
-            }
-
-            if (isNaN(hp)) {
-                alert("No HP harus berupa angka!");
+            if (isNaN(nisn) || isNaN(hp)) {
+                alert("NISN & HP harus angka!");
                 return false;
             }
 
             return true;
         }
 
-        const dropdownBtn = document.getElementById("dropdownBtn");
+        const wrapper = document.getElementById("dropdownWrapper");
         const dropdownMenu = document.getElementById("dropdownMenu");
         const selectedText = document.getElementById("selectedText");
         const jurusanInput = document.getElementById("jurusan");
-        const wrapper = document.getElementById("dropdownWrapper");
         const arrow = document.getElementById("arrow");
 
         let timeout;
@@ -159,7 +152,7 @@
             return window.innerWidth <= 768;
         }
 
-        // Desktop hover smooth
+        // Desktop hover
         wrapper.addEventListener("mouseenter", () => {
             if (!isMobile()) {
                 clearTimeout(timeout);
@@ -178,14 +171,14 @@
         });
 
         // Mobile klik
-        dropdownBtn.addEventListener("click", () => {
+        wrapper.addEventListener("click", () => {
             if (isMobile()) {
                 dropdownMenu.classList.toggle("show");
                 arrow.classList.toggle("rotate-180");
             }
         });
 
-        // Pilih item
+        // Pilih
         document.querySelectorAll("#dropdownMenu div").forEach(item => {
             item.addEventListener("click", () => {
                 selectedText.innerText = item.innerText;

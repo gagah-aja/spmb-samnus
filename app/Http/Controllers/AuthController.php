@@ -33,6 +33,9 @@ class AuthController extends Controller
     // LOGIN ADMIN
     public function loginAdmin(Request $request)
     {
+        // hapus user saja
+        session()->forget(['user_id', 'user']);
+
         $admin = Admin::where('email', $request->email)->first();
 
         if ($admin && \Hash::check($request->password, $admin->password)) {
@@ -48,25 +51,29 @@ class AuthController extends Controller
     }
 
     public function loginUser(Request $request)
-{
-    $user = Pendaftar::where('nisn', $request->nisn)
-        ->where('nama_lengkap', $request->nama_lengkap)
-        ->first();
+    {
+        // hapus admin saja
+        session()->forget(['login_admin', 'admin_nama']);
 
-    if ($user) {
-        session([
-            'user' => [
-                'nama' => $user->nama_lengkap,
-                'nisn' => $user->nisn,
-                'foto' => $user->foto ?? null
-            ]
-        ]);
+        $user = Pendaftar::where('nisn', $request->nisn)
+            ->where('nama_lengkap', $request->nama_lengkap)
+            ->first();
 
-        return redirect('/dashboard'); // ⬅️ WAJIB
+        if ($user) {
+            session([
+                'user_id' => $user->id,
+                'user' => [
+                    'nama' => $user->nama_lengkap,
+                    'nisn' => $user->nisn,
+                    'foto' => $user->foto ?? null,
+                ],
+            ]);
+
+            return redirect('/dashboard');
+        }
+
+        return back()->with('error', 'Data tidak ditemukan');
     }
-
-    return back()->with('error', 'Data tidak ditemukan');
-}
 
     // LOGOUT
     public function logout()

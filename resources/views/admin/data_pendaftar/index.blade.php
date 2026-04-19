@@ -142,8 +142,35 @@
             </div>
 
             <div class="toolbar">
-                <input type="text" class="search" placeholder="Cari nama...">
-                <a href="{{ route('admin.data-pendaftar.create') }}" class="btn btn-add">+ Tambah</a>
+
+                <!-- LEFT: SEARCH + RESET -->
+                <div style="display:flex; gap:10px;">
+                    <form method="GET" action="{{ route('admin.data-pendaftar') }}" style="display:flex; gap:10px;">
+                        <input type="text" name="search" class="search" placeholder="Cari nama..."
+                            value="{{ request('search') }}">
+
+                        <button type="submit" class="btn" style="background:#3b82f6;">
+                            Cari
+                        </button>
+
+                        <a href="{{ route('admin.data-pendaftar') }}" class="btn" style="background:#6b7280;">
+                            Reset
+                        </a>
+                    </form>
+                </div>
+
+                <!-- RIGHT: EXPORT + TAMBAH -->
+                <div style="display:flex; gap:10px;">
+                    <a href="{{ route('admin.data-pendaftar.export', ['search' => request('search')]) }}" class="btn"
+                        style="background:#10b981;">
+                        Export Excel
+                    </a>
+
+                    <a href="{{ route('admin.data-pendaftar.create') }}" class="btn btn-add">
+                        + Tambah
+                    </a>
+                </div>
+
             </div>
 
             @if (session('success'))

@@ -97,6 +97,87 @@
         </div>
     </section>
 
+    <!-- GALERI FOTO -->
+    <section class="bg-gray-50 py-16 px-6">
+        <div class="max-w-7xl mx-auto">
+
+            <!-- JUDUL -->
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold">Galeri Foto</h2>
+                <p class="text-gray-600 mt-2">Dokumentasi kegiatan sekolah</p>
+            </div>
+
+            <!-- FOTO -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                <img src="{{ asset('img/foto1.jpg') }}"
+                    class="w-full h-56 object-cover rounded-lg shadow hover:scale-105 transition duration-300">
+
+                <img src="{{ asset('img/foto2.jpg') }}"
+                    class="w-full h-56 object-cover rounded-lg shadow hover:scale-105 transition duration-300">
+
+                <img src="{{ asset('img/foto3.jpg') }}"
+                    class="w-full h-56 object-cover rounded-lg shadow hover:scale-105 transition duration-300">
+
+            </div>
+
+            <!-- BUTTON -->
+            <div class="text-center mt-8">
+                <a href="{{ route('galeri.foto') }}"
+                    class="inline-block bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition">
+                    Lihat Selengkapnya
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- GALERI VIDEO -->
+    <section class="bg-white py-16 px-6">
+        <div class="max-w-7xl mx-auto">
+
+            <!-- JUDUL -->
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold">Galeri Video</h2>
+                <p class="text-gray-600 mt-2">Video kegiatan sekolah</p>
+            </div>
+
+            <!-- VIDEO -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                <!-- Video 1 -->
+                <div class="bg-black rounded-lg overflow-hidden shadow">
+                    <iframe class="w-full h-56" src="https://www.youtube.com/embed/LV0AfSlOYcc" frameborder="0"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+
+                <!-- Video 2 -->
+                <div class="bg-black rounded-lg overflow-hidden shadow">
+                    <iframe class="w-full h-56" src="https://www.youtube.com/embed/2V2_e6hXvE0" frameborder="0"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+
+                <!-- Video 3 -->
+                <div class="bg-black rounded-lg overflow-hidden shadow">
+                    <iframe class="w-full h-56" src="https://www.youtube.com/embed/N_TbZ2iMsEU" frameborder="0"
+                        allowfullscreen>
+                    </iframe>
+                </div>
+
+            </div>
+
+            <!-- BUTTON -->
+            <div class="text-center mt-8">
+                <a href="{{ route('galeri.video') }}"
+                    class="inline-block bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition">
+                    Lihat Selengkapnya
+                </a>
+            </div>
+
+        </div>
+    </section>
     {{-- <!-- DAFTAR SECTION -->
     <section id="daftar" class="max-w-2xl mx-auto py-16 px-6">
         <h2 class="text-3xl font-bold text-center mb-8">Form Pendaftaran</h2>
@@ -129,24 +210,21 @@
 
     <!-- SCRIPT -->
     <script>
-        const slides = document.querySelectorAll("#slider .slide");
-        let currentSlide = 0;
+    const slider = document.getElementById("slider");
+    const totalSlides = slider.children.length;
+    let currentSlide = 0;
 
-        function showSlide(index) {
-            slides.forEach((slide, i) => {
-                slide.style.opacity = i === index ? "1" : "0";
-            });
-        }
+    function goToSlide(index) {
+        currentSlide = index;
+        slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+    }
 
-        // Tampilkan slide pertama
-        showSlide(currentSlide);
-
-        // Slider otomatis setiap 5 detik
-        setInterval(() => {
-            currentSlide = (currentSlide + 1) % slides.length;
-            showSlide(currentSlide);
-        }, 5000);
-    </script>
+    // Auto slide tiap 5 detik
+    setInterval(() => {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+    }, 5000);
+</script>
 
 </body>
 

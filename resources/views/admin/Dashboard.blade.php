@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard Admin</title>
-
+    <link rel="icon" type="image/png" href="{{ asset('img/samnus.png') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 
@@ -113,7 +113,7 @@
             font-size: 12px;
         }
 
-        .lolos {
+        .disetujui {
             background: #22c55e;
         }
 
@@ -175,8 +175,8 @@
                             <td>{{ $item->no_hp }}</td>
                             <td>{{ $item->jurusan }}</td>
                             <td>
-                                @if ($item->status == 'lolos')
-                                    <span class="badge lolos">Lolos</span>
+                                @if ($item->status == 'disetujui')
+                                    <span class="badge disetujui">Disetujui</span>
                                 @elseif($item->status == 'proses')
                                     <span class="badge proses">Proses</span>
                                 @else

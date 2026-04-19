@@ -8,21 +8,41 @@
         </div>
         <div>
             <h3 class="font-bold text-xl mb-4">Menu</h3>
-            <p>Beranda</p>
-            <p>Jurusan</p>
-            <p>Daftar</p>
+            <a href="{{ url('/') }}" class="block hover:text-blue-500">
+                Beranda
+            </a>
+
+            <a href="{{ url('/') }}" class="block hover:text-blue-500">
+                Jurusan
+            </a>
         </div>
         <div>
             <h3 class="font-bold text-xl mb-4">Informasi</h3>
-            <p>Berita</p>
-            <p>Kegiatan</p>
+            <a href="{{ route('galeri.foto') }}" class="block hover:text-blue-500">
+                Galeri Foto
+            </a>
+
+            <a href="{{ route('galeri.video') }}" class="block hover:text-blue-500">
+                Galeri Video
+            </a>
         </div>
         <div>
             <h3 class="font-bold text-xl mb-4">Hubungi Kami</h3>
-            <div class="flex gap-4">
-                <a href="#" class="text-2xl hover:text-red-600"><i class="fab fa-youtube"></i></a>
-                <a href="#" class="text-2xl hover:text-pink-500"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="text-2xl hover:text-blue-600"><i class="fab fa-facebook-f"></i></a>
+
+            <div class="flex items-center gap-5">
+
+                <!-- YouTube -->
+                <a href="https://www.youtube.com/@studiosamnus" target="_blank" rel="noopener noreferrer"
+                    class="text-2xl transition duration-300 hover:text-red-600">
+                    <i class="fab fa-youtube"></i>
+                </a>
+
+                <!-- Instagram -->
+                <a href="https://www.instagram.com/smksamnus" target="_blank" rel="noopener noreferrer"
+                    class="text-2xl transition duration-300 hover:text-pink-500">
+                    <i class="fab fa-instagram"></i>
+                </a>
+
             </div>
         </div>
     </div>

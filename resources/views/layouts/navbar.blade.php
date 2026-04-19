@@ -1,5 +1,5 @@
 <header class="bg-[#0f172a] text-white sticky top-0 z-50 shadow-md">
-    <div class="max-w-7xl mx-auto flex justify-between items-center p-4">
+    <div class="w-full flex justify-between items-center px-6 py-4">
 
         <!-- LOGO -->
         <div class="flex items-center">
@@ -13,53 +13,59 @@
 
                 <li><a href="/#beranda" class="hover:text-blue-400 transition">Beranda</a></li>
                 <li><a href="/#jurusan" class="hover:text-blue-400 transition">Jurusan</a></li>
+
+                <!-- DROPDOWN GALERI -->
                 <li class="relative group">
-
-                    <!-- DROPDOWN -->
-                <li class="relative">
-                    <button id="galeri-btn"
-                        class="flex items-center gap-2 hover:text-blue-400 transition focus:outline-none">
-
+                    <button class="flex items-center gap-1 hover:text-blue-400 transition">
                         Galeri
 
-                        <!-- PANAH -->
-                        <span id="arrow-desktop" class="transition-transform duration-300">▶</span>
+                        <!-- PANAH SVG -->
+                        <svg class="w-4 h-4 ml-1 opacity-70 group-hover:opacity-100 transition-all duration-300 group-hover:rotate-180"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 9l-7 7-7-7" />
+                        </svg>
                     </button>
 
                     <!-- DROPDOWN -->
-                    <div id="galeri-dropdown"
-                        class="hidden absolute left-0 mt-3 w-44 bg-white text-black rounded-xl shadow-xl overflow-hidden">
+                    <div
+                        class="absolute left-0 mt-3 w-48 bg-white text-black rounded-xl shadow-2xl overflow-hidden
+                               opacity-0 scale-95 invisible
+                               group-hover:opacity-100 group-hover:scale-100 group-hover:visible
+                               transition-all duration-200">
 
                         <a href="{{ route('galeri.foto') }}"
-                            class="flex items-center gap-2 px-4 py-3 hover:bg-gray-100 transition">
+                            class="flex items-center gap-2 px-4 py-3 hover:bg-gray-100 hover:pl-6 transition-all">
                             📷 <span>Galeri Foto</span>
                         </a>
 
                         <a href="{{ route('galeri.video') }}"
-                            class="flex items-center gap-2 px-4 py-3 hover:bg-gray-100 transition">
+                            class="flex items-center gap-2 px-4 py-3 hover:bg-gray-100 hover:pl-6 transition-all">
                             🎥 <span>Galeri Video</span>
                         </a>
                     </div>
                 </li>
+
                 <li><a href="{{ route('tentang') }}" class="hover:text-blue-400 transition">Tentang Sekolah</a></li>
 
                 @if (session('user'))
                     <!-- PROFILE -->
                     <li class="relative">
                         <button id="profile-btn" class="focus:outline-none">
-                            <div class="w-10 h-10 rounded-full bg-gray-600 flex items-center justify-center text-white">
-                                <i class="fas fa-user"></i>
+                            <div
+                                class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold">
+                                {{ strtoupper(substr(session('user.nama'), 0, 1)) }}
                             </div>
                         </button>
-                        <!-- DROPDOWN -->
+
+                        <!-- DROPDOWN PROFILE -->
                         <div id="dropdown-menu"
-                            class="hidden absolute right-0 mt-3 w-48 bg-white text-black rounded-lg shadow-lg overflow-hidden">
+                            class="hidden absolute right-0 mt-3 w-48 bg-white text-black rounded-xl shadow-xl overflow-hidden">
 
                             <div class="px-4 py-2 font-semibold border-b">
                                 {{ session('user.nama') }}
                             </div>
 
-                            <!-- PROFIL -->
                             <a href="#" class="block px-4 py-2 hover:bg-gray-100">
                                 👤 Profil
                             </a>
@@ -96,18 +102,23 @@
 
             <li><a href="/#beranda" class="hover:text-blue-400 transition">Beranda</a></li>
             <li><a href="/#jurusan" class="hover:text-blue-400 transition">Jurusan</a></li>
-            <!-- DROPDOWN -->
+
+            <!-- DROPDOWN MOBILE -->
             <li>
                 <button id="galeri-mobile-btn"
                     class="w-full flex justify-between items-center hover:text-blue-400 transition">
 
                     Galeri
 
-                    <!-- PANAH -->
-                    <span id="arrow-mobile" class="transition-transform duration-300">▶</span>
+                    <!-- PANAH SVG MOBILE -->
+                    <svg id="arrow-mobile"
+                        class="w-4 h-4 transition-transform duration-300"
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 9l-7 7-7-7" />
+                    </svg>
                 </button>
 
-                <!-- DROPDOWN MOBILE -->
                 <ul id="galeri-mobile-menu" class="hidden flex flex-col ml-4 mt-2 gap-2 text-sm">
 
                     <li>
@@ -124,7 +135,7 @@
 
                 </ul>
             </li>
-            </li>
+
             <li><a href="{{ route('tentang') }}">Tentang Sekolah</a></li>
 
             @if (session('user'))
@@ -153,85 +164,49 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
 
-        // ===== ELEMENT =====
         const profileBtn = document.getElementById('profile-btn');
         const dropdown = document.getElementById('dropdown-menu');
-
-        const galeriBtn = document.getElementById('galeri-btn');
-        const galeriDropdown = document.getElementById('galeri-dropdown');
-        const arrowDesktop = document.getElementById('arrow-desktop');
 
         const menuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
 
-        // ===== MOBILE GALERI =====
         const galeriMobileBtn = document.getElementById('galeri-mobile-btn');
         const galeriMobileMenu = document.getElementById('galeri-mobile-menu');
         const arrowMobile = document.getElementById('arrow-mobile');
 
-        // ===== PROFILE DROPDOWN =====
+        // PROFILE
         if (profileBtn && dropdown) {
             profileBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 dropdown.classList.toggle('hidden');
-
-                // tutup galeri desktop
-                if (galeriDropdown) galeriDropdown.classList.add('hidden');
-                if (arrowDesktop) arrowDesktop.classList.remove('rotate-90');
             });
         }
 
-        // ===== GALERI DESKTOP =====
-        if (galeriBtn && galeriDropdown) {
-            galeriBtn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                galeriDropdown.classList.toggle('hidden');
-
-                // animasi panah desktop
-                if (arrowDesktop) {
-                    arrowDesktop.classList.toggle('rotate-90');
-                }
-
-                // tutup profile
-                if (dropdown) dropdown.classList.add('hidden');
-            });
-        }
-
-        // ===== GALERI MOBILE =====
-        if (galeriMobileBtn && galeriMobileMenu) {
-            galeriMobileBtn.addEventListener('click', function() {
-                galeriMobileMenu.classList.toggle('hidden');
-
-                // animasi panah mobile
-                if (arrowMobile) {
-                    arrowMobile.classList.toggle('rotate-90');
-                }
-            });
-        }
-
-        // ===== KLIK DI LUAR =====
-        document.addEventListener('click', function(e) {
-
-            // profile
-            if (dropdown && !profileBtn?.contains(e.target)) {
-                dropdown.classList.add('hidden');
-            }
-
-            // galeri desktop
-            if (galeriDropdown && !galeriBtn?.contains(e.target)) {
-                galeriDropdown.classList.add('hidden');
-                if (arrowDesktop) arrowDesktop.classList.remove('rotate-90');
-            }
-
-        });
-
-        // ===== MOBILE MENU =====
+        // MOBILE MENU
         if (menuBtn && mobileMenu) {
             menuBtn.addEventListener('click', function(e) {
                 e.stopPropagation();
                 mobileMenu.classList.toggle('hidden');
             });
         }
+
+        // MOBILE GALERI
+        if (galeriMobileBtn && galeriMobileMenu) {
+            galeriMobileBtn.addEventListener('click', function() {
+                galeriMobileMenu.classList.toggle('hidden');
+
+                if (arrowMobile) {
+                    arrowMobile.classList.toggle('rotate-180');
+                }
+            });
+        }
+
+        // KLIK LUAR
+        document.addEventListener('click', function(e) {
+            if (dropdown && !profileBtn?.contains(e.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
 
     });
 </script>

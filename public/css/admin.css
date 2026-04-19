@@ -10,7 +10,7 @@
     justify-content: space-between;
 }
 
-/* BRAND / LOGO ATAS */
+/* BRAND */
 .brand {
     display: flex;
     align-items: center;
@@ -37,11 +37,11 @@
     gap: 8px;
 }
 
-/* LINK MENU + ICON */
+/* LINK */
 .menu a {
     display: flex;
     align-items: center;
-    gap: 12px; /* JARAK ICON */
+    gap: 12px;
     padding: 12px;
     border-radius: 10px;
     text-decoration: none;
@@ -50,7 +50,6 @@
     font-size: 14px;
 }
 
-/* ICON STYLE */
 .menu a i {
     width: 20px;
     text-align: center;
@@ -69,7 +68,79 @@
     box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
 }
 
-/* BOTTOM */
+/* ===== DROPDOWN ===== */
+.menu-dropdown {
+    border-radius: 10px;
+}
+
+/* TOGGLE */
+.menu-dropdown-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.menu-dropdown-toggle:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* CONTENT */
+.menu-dropdown-content {
+    max-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    transition: 0.3s ease;
+}
+
+/* LINK DROPDOWN */
+.menu-dropdown-content a {
+    padding: 10px 12px;
+    font-size: 14px;
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: 0.3s;
+}
+
+/* HOVER BUKA */
+.menu-dropdown:hover .menu-dropdown-content {
+    max-height: 200px;
+}
+
+.menu-dropdown:hover .menu-dropdown-content a {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.menu-dropdown:hover .arrow {
+    transform: rotate(180deg);
+}
+
+/* AUTO OPEN (HALAMAN AKTIF) */
+.menu-dropdown.open .menu-dropdown-content {
+    max-height: 200px;
+}
+
+.menu-dropdown.open .menu-dropdown-content a {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.menu-dropdown.open .arrow {
+    transform: rotate(180deg);
+}
+
+/* ARROW */
+.arrow {
+    transition: transform 0.3s;
+}
+
+/* ===== BOTTOM ===== */
 .bottom {
     margin-top: 20px;
 }
