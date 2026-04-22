@@ -25,12 +25,4 @@ class Pendaftar extends Model
     {
     return $this->hasOne(DaftarLanjutan::class);
     }
-
-    // Hapus daftar lanjutan juga saat pendaftar dihapus
-    protected static function booted()
-    {
-        static::deleting(function ($pendaftar) {
-            $pendaftar->daftarLanjutan()->delete();
-        });
-    }
 }

@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         * {
@@ -185,10 +186,14 @@
                                 <a href="{{ route('admin.pengumuman.edit', $p->id) }}" class="btn btn-edit">Edit</a>
                                 <a href="{{ route('admin.pengumuman.show', $p->id) }}" class="btn btn-detail">Detail</a>
                                 <form action="{{ route('admin.pengumuman.destroy', $p->id) }}" method="POST"
+                                    class="form-delete-pengumuman" data-judul="{{ $p->judul }}"
                                     style="display:inline">
-                                    @csrf @method('DELETE')
-                                    <button type="submit" class="btn btn-delete"
-                                        onclick="return confirm('Yakin?')">Hapus</button>
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button type="button" class="btn btn-delete btn-hapus-pengumuman">
+                                        Hapus
+                                    </button>
                                 </form>
                             </td>
                         </tr>
@@ -198,6 +203,29 @@
         </div>
     </div>
 
+    <script>
+        document.querySelectorAll('.btn-hapus-pengumuman').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const form = this.closest('.form-delete-pengumuman');
+                const judul = form.getAttribute('data-judul');
+
+                Swal.fire({
+                    title: 'Yakin hapus?',
+                    text: `Data tidak bisa dikembalikan! Hapus pengumuman "${judul}"?`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ef4444',
+                    cancelButtonColor: '#64748b',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
 
 </body>
 

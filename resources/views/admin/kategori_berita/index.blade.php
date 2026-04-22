@@ -6,6 +6,7 @@
     <title>Kategori Berita</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         * {
             margin: 0;
@@ -122,23 +123,33 @@
             </div>
 
             <div class="toolbar">
-                <form method="GET" action="{{ route('admin.kategori-berita.index') }}" style="display:flex; gap:10px;">
 
-                    <input type="text" name="search" class="search" placeholder="Cari kategori..."
-                        value="{{ request('search') }}">
+                <!-- LEFT: SEARCH + RESET -->
+                <div style="display:flex; gap:10px;">
+                    <form method="GET" action="{{ route('admin.kategori-berita.index') }}"
+                        style="display:flex; gap:10px;">
 
-                    <button type="submit" class="btn btn-edit">
-                        <i class="fas fa-search"></i> Cari
-                    </button>
+                        <input type="text" name="search" class="search" placeholder="Cari kategori..."
+                            value="{{ request('search') }}">
 
-                    <a href="{{ route('admin.kategori-berita.index') }}" class="btn btn-delete">
-                        <i class="fas fa-rotate-left"></i> Reset
+                        <button type="submit" class="btn" style="background:#3b82f6;">
+                            Cari
+                        </button>
+
+                        <a href="{{ route('admin.kategori-berita.index') }}" class="btn" style="background:#6b7280;">
+                            Reset
+                        </a>
+
+                    </form>
+                </div>
+
+                <!-- RIGHT: TAMBAH -->
+                <div style="display:flex; gap:10px;">
+                    <a href="{{ route('admin.kategori-berita.create') }}" class="btn btn-add">
+                        + Tambah
                     </a>
-                </form>
+                </div>
 
-                <a href="{{ route('admin.kategori-berita.create') }}" class="btn btn-add">
-                    + Tambah
-                </a>
             </div>
 
             @if (session('success'))
@@ -167,8 +178,15 @@
                                     <form action="{{ route('admin.kategori-berita.destroy', $kategori->id) }}"
                                         method="POST" style="display:inline">
                                         @csrf @method('DELETE')
-                                        <button class="btn btn-delete"
-                                            onclick="return confirm('Yakin hapus kategori ini?')">Hapus</button>
+                                        <form action="{{ route('admin.kategori-berita.destroy', $kategori->id) }}"
+                                            method="POST" class="form-delete">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="button" class="btn btn-delete btn-hapus">
+                                                Hapus
+                                            </button>
+                                        </form>
                                     </form>
                                 </div>
                             </td>
@@ -179,6 +197,30 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.querySelectorAll('.btn-hapus').forEach(button => {
+            button.addEventListener('click', function() {
+                let form = this.closest('.form-delete');
+
+                Swal.fire({
+                    title: 'Yakin hapus?',
+                    text: "Data tidak bisa dikembalikan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#ef4444',
+                    cancelButtonColor: '#64748b',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
+
 </body>
 
 </html>

@@ -28,14 +28,4 @@ class DaftarLanjutan extends Model
     {
         return $this->belongsTo(Pendaftar::class);
     }
-
-    protected static function booted()
-    {
-        static::deleting(function ($daftarLanjutan) {
-            // Hindari infinite loop dengan cek dulu
-            if ($daftarLanjutan->pendaftar) {
-                $daftarLanjutan->pendaftar()->delete();
-            }
-        });
-    }
 }

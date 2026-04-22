@@ -14,8 +14,12 @@ class DaftarLanjutanController extends Controller
 
         if ($request->filled('search')) {
             $query->whereHas('pendaftar', function ($q) use ($request) {
-                $q->where('nama_lengkap', 'like', '%' . $request->search . '%');
+                $q->where('nama_lengkap', 'like', '%'.$request->search.'%');
             });
+        }
+        // FILTER STATUS
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
         }
 
         $daftarLanjutans = $query->paginate(20)->withQueryString();
@@ -26,15 +30,17 @@ class DaftarLanjutanController extends Controller
     public function show($id)
     {
         $daftarLanjutan = DaftarLanjutan::with('pendaftar')->findOrFail($id);
+
         return view('admin.daftar_lanjutan.show', compact('daftarLanjutan'));
     }
 
     public function edit($id)
-{
-    $daftarLanjutan = DaftarLanjutan::with('pendaftar')->findOrFail($id);
-    dd($daftarLanjutan->id, $daftarLanjutan->exists); // ← tambah ini
-    return view('admin.daftar_lanjutan.edit', compact('daftarLanjutan'));
-}
+    {
+        $daftarLanjutan = DaftarLanjutan::with('pendaftar')->findOrFail($id);
+        // dd($daftarLanjutan->id, $daftarLanjutan->exists); // ← tambah ini
+    // dd($daftarLanjutan);
+        return view('admin.daftar_lanjutan.edit', compact('daftarLanjutan'));
+    }
 
     public function update(Request $request, $id)
     {
@@ -126,8 +132,8 @@ class DaftarLanjutanController extends Controller
         $daftarLanjutans = DaftarLanjutan::with('pendaftar')->get();
 
         $headers = [
-            "Content-Type"        => "text/csv",
-            "Content-Disposition" => "attachment; filename=\"$fileName\"",
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"$fileName\"",
         ];
 
         $columns = [

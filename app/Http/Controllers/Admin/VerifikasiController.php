@@ -9,9 +9,21 @@ use Illuminate\Http\Request;
 
 class VerifikasiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = Pendaftar::all(); // ambil semua data
+        $query = Pendaftar::query();
+
+        // 🔍 SEARCH NAMA
+        if ($request->filled('search')) {
+            $query->where('nama_lengkap', 'like', '%'.$request->search.'%');
+        }
+
+        // 🔽 FILTER STATUS
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $data = $query->latest()->get();
 
         return view('admin.verifikasi.index', compact('data'));
     }

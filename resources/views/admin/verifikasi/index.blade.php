@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <style>
         * {
             margin: 0;
@@ -23,7 +24,6 @@
             display: flex;
         }
 
-        /* ================= MAIN ================= */
         .main {
             flex: 1;
             padding: 30px;
@@ -35,7 +35,13 @@
         }
 
         .toolbar {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .toolbar form {
+            display: flex;
+            gap: 10px;
+            align-items: center;
         }
 
         .search {
@@ -45,12 +51,63 @@
             border: 1px solid #ccc;
         }
 
-        /* ================= TABLE ================= */
+        .dropdown-filter {
+            position: relative;
+            width: 180px;
+            cursor: pointer;
+        }
+
+        .dropdown-selected {
+            background: white;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 110%;
+            width: 100%;
+            background: white;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .dropdown-menu div {
+            padding: 10px;
+        }
+
+        .dropdown-menu div:hover {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .dropdown-filter:hover .dropdown-menu {
+            display: block;
+        }
+
+        .btn {
+            padding: 10px 14px;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .btn-search {
+            background: #3b82f6;
+        }
+
+        .btn-reset {
+            background: #6b7280;
+        }
+
         .table-box {
             background: white;
             padding: 20px;
             border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
         }
 
         table {
@@ -61,24 +118,14 @@
         th,
         td {
             padding: 12px;
-            text-align: center; /* semua td center */
-            vertical-align: middle;
+            text-align: center;
         }
 
         th {
             background: #e2e8f0;
-            font-size: 14px;
         }
 
-        tr:hover {
-            background: #f9fafb;
-        }
-
-        /* ================= BADGE ================= */
         .badge {
-            display: inline-block;
-            min-width: 70px;
-            text-align: center;
             padding: 6px 12px;
             border-radius: 20px;
             color: white;
@@ -97,14 +144,10 @@
             background: #ef4444;
         }
 
-        /* ================= BUTTON ================= */
-        .btn {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 8px;
-            color: white;
-            cursor: pointer;
-            font-size: 12px;
+        .action-btns {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
         }
 
         .btn-approve {
@@ -119,18 +162,21 @@
             background: #3b82f6;
         }
 
-        .btn-cancel {
-            background: #64748b;
-        }
-
-        .btn:hover {
-            opacity: 0.9;
-        }
-
-        .action-btns {
-            display: flex;
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
             justify-content: center;
-            gap: 6px;
+            align-items: center;
+        }
+
+        .modal-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px;
         }
     </style>
 </head>
@@ -138,10 +184,8 @@
 <body>
 
     <div class="container">
-
         @include('admin.sidebar')
 
-        <!-- MAIN -->
         <div class="main">
 
             <div class="header">
@@ -149,7 +193,31 @@
             </div>
 
             <div class="toolbar">
-                <input type="text" class="search" placeholder="Cari nama...">
+                <form method="GET" action="{{ route('admin.verifikasi') }}">
+                    <input type="text" name="search" class="search" placeholder="Cari nama..."
+                        value="{{ request('search') }}">
+
+                    <div class="dropdown-filter">
+                        <div class="dropdown-selected">
+                            <span id="selectedText">
+                                {{ request('status') ? ucfirst(request('status')) : 'Semua Status' }}
+                            </span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+
+                        <div class="dropdown-menu">
+                            <div onclick="setStatus('')">Semua Status</div>
+                            <div onclick="setStatus('proses')">Proses</div>
+                            <div onclick="setStatus('disetujui')">Disetujui</div>
+                            <div onclick="setStatus('ditolak')">Ditolak</div>
+                        </div>
+
+                        <input type="hidden" name="status" id="statusInput" value="{{ request('status') }}">
+                    </div>
+
+                    <button type="submit" class="btn btn-search">Cari</button>
+                    <a href="{{ route('admin.verifikasi') }}" class="btn btn-reset">Reset</a>
+                </form>
             </div>
 
             <div class="table-box">
@@ -158,7 +226,7 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
-                            <th>Asal Sekolah</th>
+                            <th>Asal</th>
                             <th>NISN</th>
                             <th>No HP</th>
                             <th>Status</th>
@@ -167,34 +235,44 @@
                     </thead>
 
                     <tbody>
-                        @foreach ($data as $i => $d)
+                        @forelse ($data as $i => $d)
                             <tr>
                                 <td>{{ $i + 1 }}</td>
                                 <td>{{ $d->nama_lengkap }}</td>
                                 <td>{{ $d->asal_sekolah }}</td>
                                 <td>{{ $d->nisn }}</td>
                                 <td>{{ $d->no_hp }}</td>
+
                                 <td>
                                     <span class="badge {{ $d->status }}">
                                         {{ ucfirst($d->status) }}
                                     </span>
                                 </td>
+
                                 <td class="action-btns">
+
                                     @if ($d->status == 'proses')
                                         <button class="btn btn-approve"
                                             onclick="openModal({{ $d->id }}, 'setuju')">Setuju</button>
+
                                         <button class="btn btn-reject"
                                             onclick="openModal({{ $d->id }}, 'tolak')">Tolak</button>
                                     @else
                                         <button class="btn btn-detail"
-                                            onclick="openDetailModal({{ $d->id }}, '{{ addslashes($d->notifikasi->pesan ?? '') }}')">
+                                            onclick="openModal({{ $d->id }}, 'detail', '{{ $d->notifikasi->pesan ?? '' }}')">
                                             Detail
                                         </button>
                                     @endif
+
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr>
+                                <td colspan="7">Data tidak ditemukan</td>
+                            </tr>
+                        @endforelse
                     </tbody>
+
                 </table>
             </div>
 
@@ -202,47 +280,63 @@
     </div>
 
     <!-- MODAL -->
-    <div id="modal" class="modal" style="display:none;">
+    <div id="modalPesan" class="modal">
         <div class="modal-box">
-            <h3>Isi Pesan</h3>
 
-            <form id="formAksi" method="POST">
+            <h3 id="modalTitle">Pesan</h3>
+
+            <form id="formPesan" method="POST">
                 @csrf
-                <textarea name="pesan" required></textarea>
 
-                <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:15px;">
-                    <button type="button" class="btn btn-cancel" onclick="closeModal()">Batal</button>
-                    <button type="submit" class="btn btn-approve">Kirim</button>
+                <textarea name="pesan" id="pesanInput" style="width:100%;margin:10px 0;height:100px;"></textarea>
+
+                <div style="display:flex;justify-content:end;gap:10px;">
+                    <button type="button" onclick="closeModal()" class="btn btn-reset">Batal</button>
+                    <button type="submit" class="btn btn-search">Simpan</button>
                 </div>
+
             </form>
+
         </div>
     </div>
 
     <script>
-        function openModal(id, aksi) {
-            const modal = document.getElementById('modal');
-            const form = document.getElementById('formAksi');
+        function setStatus(value) {
+            document.getElementById('statusInput').value = value;
 
-            form.action = aksi === 'setuju' ?
-                `/admin/verifikasi/${id}/setuju` :
-                `/admin/verifikasi/${id}/tolak`;
+            let text = "Semua Status";
+            if (value === "proses") text = "Proses";
+            if (value === "disetujui") text = "Disetujui";
+            if (value === "ditolak") text = "Ditolak";
 
-            modal.style.display = 'flex';
+            document.getElementById('selectedText').innerText = text;
+        }
+
+        function openModal(id, type, pesan = '') {
+            document.getElementById('modalPesan').style.display = 'flex';
+            document.getElementById('pesanInput').value = pesan;
+
+            let form = document.getElementById('formPesan');
+            let title = document.getElementById('modalTitle');
+
+            if (type === 'setuju') {
+                title.innerText = 'Setujui Pendaftar';
+                form.action = `/admin/verifikasi/${id}/setuju`;
+            }
+
+            if (type === 'tolak') {
+                title.innerText = 'Tolak Pendaftar';
+                form.action = `/admin/verifikasi/${id}/tolak`;
+            }
+
+            if (type === 'detail') {
+                title.innerText = 'Edit Pesan';
+                form.action = `/admin/verifikasi/${id}/update-pesan`;
+            }
         }
 
         function closeModal() {
-            document.getElementById('modal').style.display = 'none';
-        }
-
-        function openDetailModal(id, pesan) {
-            const modal = document.getElementById('modal');
-            const form = document.getElementById('formAksi');
-            const textarea = form.querySelector('textarea');
-
-            form.action = `/admin/verifikasi/${id}/update-pesan`;
-            textarea.value = pesan;
-
-            modal.style.display = 'flex';
+            document.getElementById('modalPesan').style.display = 'none';
         }
     </script>
 

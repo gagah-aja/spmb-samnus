@@ -8,224 +8,190 @@
 
     <link rel="icon" type="image/png" href="{{ asset('img/samnus.png') }}">
 
-    <!-- Tailwind CSS CDN -->
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    <!-- SweetAlert2 CDN -->
+    <!-- SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        button,
+        a {
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
 </head>
 
-<body class="bg-gray-100 font-sans">
+<body class="bg-gray-100 font-sans scroll-smooth">
 
     {{-- Navbar --}}
     @include('layouts.navbar')
 
-    <!-- HERO SECTION -->
+    <!-- HERO -->
     <section id="beranda"
-        class="relative h-screen flex justify-center items-center text-center text-white overflow-hidden">
-        <!-- Slider Container -->
-        <div class="absolute inset-0 w-full h-full overflow-hidden">
+        class="relative min-h-[80vh] md:h-screen flex justify-center items-center text-center text-white overflow-hidden px-4">
+
+        <div class="absolute inset-0 w-full h-full">
             <div id="slider" class="flex w-full h-full transition-transform duration-700">
 
-                <div class="w-full h-full flex-shrink-0">
+                <div class="w-full h-full flex-shrink-0 relative">
                     <img src="img/smksamudranusantara-hero.jpg" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-black opacity-50"></div>
+                    <div class="absolute inset-0 bg-black/50"></div>
                 </div>
 
-                <div class="w-full h-full flex-shrink-0">
+                <div class="w-full h-full flex-shrink-0 relative">
                     <img src="img/smksamudranusantara-hero2.jpg" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-black opacity-50"></div>
+                    <div class="absolute inset-0 bg-black/50"></div>
                 </div>
 
-                <div class="w-full h-full flex-shrink-0">
+                <div class="w-full h-full flex-shrink-0 relative">
                     <img src="img/smksamudranusantara-hero3.jpg" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-black opacity-50"></div>
+                    <div class="absolute inset-0 bg-black/50"></div>
                 </div>
 
             </div>
         </div>
 
-        <!-- Content -->
-        <div class="relative z-10 px-4">
-            <h1 class="text-4xl md:text-6xl font-bold mb-4">Selamat Datang di SPMB</h1>
-            <p class="text-lg md:text-2xl mb-6">Pendaftaran Siswa Baru SMK Samudra Nusantara</p>
+        <div class="relative z-10">
+            <h1 class="text-2xl sm:text-3xl md:text-6xl font-bold mb-4 leading-tight">
+                {{ $setting['hero_judul'] ?? 'Selamat Datang di SPMB' }}
+            </h1>
+            <p class="text-sm sm:text-base md:text-2xl mb-6">
+                {{ $setting['hero_subjudul'] ?? 'Pendaftaran Siswa Baru SMK Samudra Nusantara' }}
+            </p>
+
             <a href="#daftar"
-                class="bg-blue-400 hover:bg-blue-500 transition px-6 py-3 rounded-lg font-semibold text-lg">
+                class="bg-blue-400 hover:bg-blue-500 px-5 py-2 md:px-6 md:py-3 rounded-lg font-semibold text-sm md:text-lg">
                 Daftar Sekarang
             </a>
         </div>
-
-        <!-- Slider Controls (optional) -->
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex space-x-3 z-20">
-            <button class="w-3 h-3 rounded-full bg-white opacity-50" onclick="goToSlide(0)"></button>
-            <button class="w-3 h-3 rounded-full bg-white opacity-50" onclick="goToSlide(1)"></button>
-            <button class="w-3 h-3 rounded-full bg-white opacity-50" onclick="goToSlide(2)"></button>
-        </div>
     </section>
 
-    <!-- JURUSAN SECTION -->
-    <section id="jurusan" class="max-w-7xl mx-auto py-16 px-6">
-        <h2 class="text-3xl font-bold text-center mb-10">Jurusan Kami</h2>
-        <div class="grid md:grid-cols-3 gap-8">
-            <div class="bg-white shadow-lg rounded-lg p-6 text-center hover:shadow-2xl transition">
-                <i class="fas fa-robot text-4xl text-blue-400 mb-4"></i>
-                <h3 class="font-bold text-xl mb-2">Teknik Otomasi Industri</h3>
-                <p>Mempelajari sistem otomatisasi industri, robotik, kontrol mesin, dan pengelolaan proses produksi
-                    modern.</p>
-            </div>
-            <div class="bg-white shadow-lg rounded-lg p-6 text-center hover:shadow-2xl transition">
-                <i class="fas fa-cogs text-4xl text-blue-400 mb-4"></i>
-                <h3 class="font-bold text-xl mb-2">Teknik Mesin</h3>
-                <p>Belajar desain, produksi, dan pemeliharaan mesin industri.</p>
-            </div>
-            <div class="bg-white shadow-lg rounded-lg p-6 text-center hover:shadow-2xl transition">
-                <i class="fas fa-bolt text-4xl text-blue-400 mb-4"></i>
-                <h3 class="font-bold text-xl mb-2">Teknik Kelistrikan</h3>
-                <p>Mempelajari instalasi listrik, kontrol daya, dan pemeliharaan sistem kelistrikan.</p>
-            </div>
-            <div class="bg-white shadow-lg rounded-lg p-6 text-center hover:shadow-2xl transition">
-                <i class="fas fa-network-wired text-4xl text-blue-400 mb-4"></i>
-                <h3 class="font-bold text-xl mb-2">Teknik Jaringan Komputer & Telekomunikasi</h3>
-                <p>Mempelajari jaringan komputer, server, internet, dan sistem telekomunikasi.</p>
-            </div>
-            <div class="bg-white shadow-lg rounded-lg p-6 text-center hover:shadow-2xl transition">
-                <i class="fas fa-motorcycle text-4xl text-blue-400 mb-4"></i>
-                <h3 class="font-bold text-xl mb-2">Teknik Bisnis Sepeda Motor</h3>
-                <p>Mempelajari perbaikan, perawatan, dan manajemen bisnis sepeda motor.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- GALERI FOTO -->
-    <section class="bg-gray-50 py-16 px-6">
+    <!-- BERITA -->
+    <section id="berita" class="bg-white py-12 px-4 md:px-6">
         <div class="max-w-7xl mx-auto">
 
-            <!-- JUDUL -->
-            <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold">Galeri Foto</h2>
-                <p class="text-gray-600 mt-2">Dokumentasi kegiatan sekolah</p>
+            <div class="text-center mb-8">
+                <h2 class="text-2xl md:text-3xl font-bold">Berita Terbaru</h2>
+                <p class="text-gray-600 mt-2 text-sm md:text-base">Informasi terkini sekolah</p>
             </div>
 
-            <!-- FOTO -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                @foreach ($beritaTerbaru as $berita)
+                    <div class="bg-white border rounded-xl shadow hover:shadow-xl transition cursor-pointer overflow-hidden"
+                        onclick="openModal(
+                            '{{ addslashes($berita->judul) }}',
+                            '{{ asset('storage/' . $berita->gambar) }}',
+                            '{{ addslashes(\Carbon\Carbon::parse($berita->created_at)->translatedFormat('d F Y')) }}',
+                            '{{ addslashes(strip_tags($berita->konten)) }}',
+                            '{{ addslashes($berita->kategori->nama ?? 'Umum') }}'
+                        )">
 
-                <img src="{{ asset('img/foto1.jpg') }}"
-                    class="w-full h-56 object-cover rounded-lg shadow hover:scale-105 transition duration-300">
+                        <div class="relative">
+                            <img src="{{ asset('storage/' . $berita->gambar) }}"
+                                class="w-full h-40 md:h-48 object-cover">
 
-                <img src="{{ asset('img/foto2.jpg') }}"
-                    class="w-full h-56 object-cover rounded-lg shadow hover:scale-105 transition duration-300">
+                            <span class="absolute top-2 left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded-full">
+                                {{ $berita->kategori->nama ?? 'Umum' }}
+                            </span>
+                        </div>
 
-                <img src="{{ asset('img/foto3.jpg') }}"
-                    class="w-full h-56 object-cover rounded-lg shadow hover:scale-105 transition duration-300">
+                        <div class="p-4">
+                            <p class="text-xs text-gray-400 mb-2">
+                                {{ \Carbon\Carbon::parse($berita->created_at)->translatedFormat('d F Y') }}
+                            </p>
 
-            </div>
+                            <h3 class="font-bold text-sm md:text-lg mb-2 line-clamp-2">
+                                {{ $berita->judul }}
+                            </h3>
 
-            <!-- BUTTON -->
-            <div class="text-center mt-8">
-                <a href="{{ route('galeri.foto') }}"
-                    class="inline-block bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition">
-                    Lihat Selengkapnya
-                </a>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- GALERI VIDEO -->
-    <section class="bg-white py-16 px-6">
-        <div class="max-w-7xl mx-auto">
-
-            <!-- JUDUL -->
-            <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold">Galeri Video</h2>
-                <p class="text-gray-600 mt-2">Video kegiatan sekolah</p>
-            </div>
-
-            <!-- VIDEO -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-                <!-- Video 1 -->
-                <div class="bg-black rounded-lg overflow-hidden shadow">
-                    <iframe class="w-full h-56" src="https://www.youtube.com/embed/LV0AfSlOYcc" frameborder="0"
-                        allowfullscreen>
-                    </iframe>
-                </div>
-
-                <!-- Video 2 -->
-                <div class="bg-black rounded-lg overflow-hidden shadow">
-                    <iframe class="w-full h-56" src="https://www.youtube.com/embed/2V2_e6hXvE0" frameborder="0"
-                        allowfullscreen>
-                    </iframe>
-                </div>
-
-                <!-- Video 3 -->
-                <div class="bg-black rounded-lg overflow-hidden shadow">
-                    <iframe class="w-full h-56" src="https://www.youtube.com/embed/N_TbZ2iMsEU" frameborder="0"
-                        allowfullscreen>
-                    </iframe>
-                </div>
-
-            </div>
-
-            <!-- BUTTON -->
-            <div class="text-center mt-8">
-                <a href="{{ route('galeri.video') }}"
-                    class="inline-block bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition">
-                    Lihat Selengkapnya
-                </a>
+                            <p class="text-gray-500 text-xs md:text-sm line-clamp-3">
+                                {{ Str::limit(strip_tags($berita->konten), 100) }}
+                            </p>
+                        </div>
+                    </div>
+                @endforeach
             </div>
 
         </div>
     </section>
-    {{-- <!-- DAFTAR SECTION -->
-    <section id="daftar" class="max-w-2xl mx-auto py-16 px-6">
-        <h2 class="text-3xl font-bold text-center mb-8">Form Pendaftaran</h2>
-        <form id="formPendaftaran" class="bg-white shadow-lg rounded-lg p-6 flex flex-col gap-4">
-            <input type="text" id="nama" placeholder="Nama Lengkap"
-                class="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
-            <input type="text" id="asalSmp" placeholder="Asal SMP"
-                class="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
-            <input type="tel" id="noHp" placeholder="No. HP"
-                class="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
-            <input type="number" id="nisn" placeholder="NISN"
-                class="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
-            <select id="jurusan" class="border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
-                <option value="">Jurusan Pilihan</option>
-                <option>Teknik Otomasi Industri</option>
-                <option>Teknik Mesin</option>
-                <option>Teknik Kelistrikan</option>
-                <option>Teknik Jaringan Komputer & Telekomunikasi</option>
-                <option>Teknik Bisnis Sepeda Motor</option>
-            </select>
-            <button type="submit"
-                class="bg-blue-400 hover:bg-blue-500 transition px-4 py-2 rounded font-semibold text-white">
-                Kirim Pendaftaran
-            </button>
-        </form>
-    </section> --}}
+
+    <!-- MODAL -->
+    <div id="modalBerita" class="fixed inset-0 hidden z-50 items-center justify-center bg-black/60 px-3">
+
+        <div class="bg-white w-full max-w-lg md:max-w-2xl rounded-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
+
+            <img id="modalGambar" class="w-full h-48 md:h-64 object-cover">
+
+            <div class="p-4 md:p-6">
+
+                <div class="flex justify-between text-xs text-gray-400 mb-2">
+                    <span id="modalKategori"></span>
+                    <span id="modalTanggal"></span>
+                </div>
+
+                <h2 id="modalJudul" class="text-lg md:text-2xl font-bold mb-3"></h2>
+
+                <p id="modalIsi" class="text-sm text-gray-600 whitespace-pre-line"></p>
+
+                <button onclick="closeModal()" class="mt-4 bg-red-500 text-white px-4 py-2 rounded">
+                    Tutup
+                </button>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- JURUSAN -->
+    <section class="py-12 px-4 md:px-6">
+        <h2 class="text-2xl md:text-3xl text-center font-bold mb-8">Jurusan Kami</h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            @foreach ($jurusans as $jurusan)
+                <div class="bg-white p-6 text-center rounded-lg shadow">
+                    <i class="fas {{ $jurusan->icon }} text-3xl text-blue-400 mb-3"></i>
+                    <h3 class="font-bold">{{ $jurusan->nama }}</h3>
+                    <p class="text-sm text-gray-500">{{ $jurusan->deskripsi }}</p>
+                </div>
+            @endforeach
+        </div>
+    </section>
 
     {{-- Footer --}}
     @include('layouts.footer')
 
-    <!-- SCRIPT -->
     <script>
-    const slider = document.getElementById("slider");
-    const totalSlides = slider.children.length;
-    let currentSlide = 0;
+        // Slider
+        const slider = document.getElementById("slider");
+        let index = 0;
 
-    function goToSlide(index) {
-        currentSlide = index;
-        slider.style.transform = `translateX(-${currentSlide * 100}%)`;
-    }
+        setInterval(() => {
+            index = (index + 1) % 3;
+            slider.style.transform = `translateX(-${index * 100}%)`;
+        }, 4000);
 
-    // Auto slide tiap 5 detik
-    setInterval(() => {
-        currentSlide = (currentSlide + 1) % totalSlides;
-        slider.style.transform = `translateX(-${currentSlide * 100}%)`;
-    }, 5000);
-</script>
+        // Modal
+        function openModal(judul, gambar, tanggal, isi, kategori) {
+            document.getElementById('modalJudul').textContent = judul;
+            document.getElementById('modalGambar').src = gambar;
+            document.getElementById('modalTanggal').textContent = tanggal;
+            document.getElementById('modalIsi').textContent = isi;
+            document.getElementById('modalKategori').textContent = kategori;
+
+            document.getElementById('modalBerita').classList.remove('hidden');
+            document.getElementById('modalBerita').classList.add('flex');
+        }
+
+        function closeModal() {
+            document.getElementById('modalBerita').classList.add('hidden');
+            document.getElementById('modalBerita').classList.remove('flex');
+        }
+    </script>
 
 </body>
 
 </html>
+    

@@ -183,23 +183,32 @@
             @endif
 
             <div class="toolbar">
-                <form method="GET" action="{{ route('admin.berita.index') }}" style="display:flex; gap:10px;">
 
-                    <input type="text" name="search" class="search" placeholder="Cari berita..."
-                        value="{{ request('search') }}">
+                <!-- LEFT: SEARCH + RESET -->
+                <div style="display:flex; gap:10px;">
+                    <form method="GET" action="{{ route('admin.berita.index') }}" style="display:flex; gap:10px;">
 
-                    <button type="submit" class="btn btn-edit">
-                        <i class="fas fa-search"></i> Cari
-                    </button>
+                        <input type="text" name="search" class="search" placeholder="Cari berita..."
+                            value="{{ request('search') }}">
 
-                    <a href="{{ route('admin.berita.index') }}" class="btn btn-delete">
-                        <i class="fas fa-rotate-left"></i> Reset
+                        <button type="submit" class="btn" style="background:#3b82f6;">
+                            Cari
+                        </button>
+
+                        <a href="{{ route('admin.berita.index') }}" class="btn" style="background:#6b7280;">
+                            Reset
+                        </a>
+
+                    </form>
+                </div>
+
+                <!-- RIGHT: TAMBAH -->
+                <div style="display:flex; gap:10px;">
+                    <a href="{{ route('admin.berita.create') }}" class="btn btn-add">
+                        + Tambah
                     </a>
-                </form>
+                </div>
 
-                <a href="{{ route('admin.berita.create') }}" class="btn btn-add">
-                    + Tambah
-                </a>
             </div>
 
             <div class="table-box">
@@ -306,7 +315,7 @@
 
                 Swal.fire({
                     title: 'Yakin hapus?',
-                    text: "Data tidak bisa dikembalikan!",
+                    text: "Data tidak bisa dikembalikan! Hapus berita ini?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#ef4444',
